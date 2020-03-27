@@ -24,7 +24,7 @@ Version 0.5.0
 - Gradle
 
 ## Usage
-Clone and run *nux:`./gradlew run`, or Windows:`.\gradlew.bat run`
+Clone and run *nix:`./gradlew run`, or Windows:`.\gradlew.bat run`
 
 `/resources/totp.yaml` contains the openapi 3.0 specification for the endpoints.
 
