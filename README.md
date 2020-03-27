@@ -21,12 +21,12 @@ Version 0.5.0
 - Java JRE/JDK 1.8+
 - Gradle
 
-##Usage
+## Usage
 Clone and run *nux:`./gradlew run`, or Windows:`.\gradlew.bat run`
 
 `/resources/totp.yaml` contains the openapi 3.0 specification for the endpoints.
 
-###TODO:
+### TODO:
 - export and host html openapi spec
 - export and host javadoc
 - add maven and ant configurations
