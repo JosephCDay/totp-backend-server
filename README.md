@@ -1,5 +1,5 @@
 # TOTP 2fa Backend Server
-This is a backend micro-service to facilitate adding TOTP 2fa security in an application.  This application can generate secrets, one-time passwords, and QR Codes.
+This is a backend micro-service to facilitate adding TOTP 2fa security in an application.  This service can generate secrets, one-time passwords, and QR Codes.
 
 Rant: The purpose of this project is twofold.  To provide a useful and fast backend 2fa micro-service, and to demonstrate the power and ease of <https://vertx.io>.  I tire of seeing job postings and IDE support for Spring Boot, when vertx can get the job done faster, more efficiently, and completely unopinionated.  Vertx also yields a faster and more efficient micro-service(<https://www.techempower.com/benchmarks/>).
 
