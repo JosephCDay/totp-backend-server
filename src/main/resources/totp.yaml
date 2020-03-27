@@ -1,0 +1,195 @@
+openapi: "3.0.0"
+info:
+  version: 0.5.0
+  title: TOTP Server
+paths:
+  /secret:
+    get:
+      summary: Generate random secret
+      description: >
+        Generate secure random secret.
+      operationId: secretGET
+      tags:
+        - secret
+        - totp
+      responses:
+        '200':
+          description: TOTP Secret
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Secret"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /token/{secret}:
+    get:
+      summary: Get current TOTP token
+      description: >
+        Some Description
+      operationId: tokenGET
+      tags:
+        - totp
+      parameters:
+        - name: secret
+          in: path
+          required: true
+          description: TOTP secret
+          schema:
+            type: string
+            pattern: '^[A-Z2-7]{16}'
+        - name: millisec
+          in: query
+          required: false
+          description: Optional Unix Timestamp in milliseconds
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+        - name: unixtime
+          in: query
+          required: false
+          description: Optional Unix Timestamp
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+      responses:
+        '200':
+          description: Provided TOTP token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TOTP_Response'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /check:
+    get:
+      summary: Validate TOTP token against secret
+      description: >
+        Some Description
+      operationId: checkGET
+      tags:
+        - totp
+      parameters:
+        - name: secret
+          in: query
+          required: true
+          description: TOTP secret
+          schema:
+            type: string
+            pattern: '^[A-Z2-7]{16}'
+        - name: token
+          in: query
+          required: true
+          description: TOTP token
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 999999
+        - name: millisec
+          in: query
+          required: false
+          description: Optional Unix Timestamp in milliseconds
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+        - name: unixtime
+          in: query
+          required: false
+          description: Optional Unix Timestamp
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+      responses:
+        '200':
+          description: Validation pass
+        '401':
+          description: Validation fail
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /image:
+    get:
+      summary: Generate QRCode Image
+      description: >
+        Generates a QR code image.
+      operationId: imageGET
+      tags:
+        - totp
+        - qr
+      parameters:
+        - name: label
+          in: query
+          required: true
+          description: TOTP label displayed in app
+          schema:
+            type: string
+        - name: secret
+          in: query
+          required: true
+          description: TOTP secret
+          schema:
+            type: string
+            pattern: '^[A-Z2-7]{16}'
+        - name: size
+          in: query
+          required: false
+          description: output width and height for square image
+          schema:
+            type: integer
+            format: int32
+            minimum: 32
+      responses:
+        '200':
+          description: Image provided
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    Secret:
+      required:
+        - secret
+      properties:
+        secret:
+          type: string
+          pattern: '^[A-Z2-7]{16}'
+    TOTP_Response:
+      required:
+        - token
+      properties:
+        token:
+          type: string
+          pattern: '^[0-9]{6}'
+    Error:
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
