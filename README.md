@@ -5,7 +5,7 @@ Rant: The purpose of this project is twofold.  To provide a useful and fast back
 
 Version 0.5.0
 
-###What it is:
+### What it is:
 - 16 Character B32 secure secret generator
 - one-time password generator
 - one-time password validator
